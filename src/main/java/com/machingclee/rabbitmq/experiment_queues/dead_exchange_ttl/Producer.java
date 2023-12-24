@@ -1,4 +1,4 @@
-package com.machingclee.rabbitmq.experiment_queues.dead_exchange_ttl;
+package com.machingclee.rabbitmq.experiment_queues.dead_exchange_from_rejected;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;

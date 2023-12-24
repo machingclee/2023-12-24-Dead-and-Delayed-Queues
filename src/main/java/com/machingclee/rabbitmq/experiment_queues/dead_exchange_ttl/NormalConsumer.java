@@ -1,4 +1,4 @@
-package com.machingclee.rabbitmq.experiment_queues.dead_exchange_ttl;
+package com.machingclee.rabbitmq.experiment_queues.dead_exchange_from_rejected;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -7,8 +7,6 @@ import java.util.concurrent.TimeoutException;
 
 import com.machingclee.rabbitmq.util.RabbitMQUtil;
 import com.rabbitmq.client.BuiltinExchangeType;
-import com.rabbitmq.client.CancelCallback;
-import com.rabbitmq.client.DeliverCallback;
 
 public class NormalConsumer {
     public static final String NORMAL_EXCHANGE = "normal_exchange";
@@ -42,23 +40,5 @@ public class NormalConsumer {
 
         channel.queueBind(NORMAL_QUEUE, NORMAL_EXCHANGE, NORMAL_ROUTING_KEY);
         channel.queueBind(DEAD_QUEUE, DEAD_EXCHANGE, DEAD_ROUTING_KEY);
-
-        DeliverCallback deliverCallback = (consumerTag, message) -> {
-            String msg = new String(message.getBody());
-            System.out.println("[DeadQueue Consumer Digested]" + msg);
-            if (msg.equals("info " + 5)) {
-                System.out.println("reject message: " + msg);
-                channel.basicReject(message.getEnvelope().getDeliveryTag(), false);
-            } else {
-                System.out.println("message acked: " + msg);
-                channel.basicAck(message.getEnvelope().getDeliveryTag(), false);
-            }
-        };
-
-        CancelCallback cancelCallback = consumerTag -> {
-            System.out.println("[Message Cancelled]");
-        };
-
-        channel.basicConsume(NORMAL_QUEUE, false, deliverCallback, cancelCallback);
     }
 }
