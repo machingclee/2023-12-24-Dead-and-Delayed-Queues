@@ -1,4 +1,4 @@
-package com.machingclee.rabbitmq.dead_exchange;
+package com.machingclee.rabbitmq.experiment_queues.dead_exchange_ttl;
 
 import java.io.IOException;
 import java.util.HashMap;

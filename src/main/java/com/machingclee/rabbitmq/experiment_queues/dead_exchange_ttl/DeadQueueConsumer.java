@@ -1,8 +1,6 @@
-package com.machingclee.rabbitmq.dead_exchange_from_rejected;
+package com.machingclee.rabbitmq.experiment_queues.dead_exchange_ttl;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import com.machingclee.rabbitmq.util.RabbitMQUtil;

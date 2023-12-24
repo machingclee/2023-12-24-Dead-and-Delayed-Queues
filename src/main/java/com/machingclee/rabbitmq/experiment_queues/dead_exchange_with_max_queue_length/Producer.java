@@ -1,10 +1,9 @@
-package com.machingclee.rabbitmq.dead_exchange_from_rejected;
+package com.machingclee.rabbitmq.experiment_queues.dead_exchange_with_max_queue_length;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 import com.machingclee.rabbitmq.util.RabbitMQUtil;
-import com.rabbitmq.client.AMQP.BasicProperties;
 import com.rabbitmq.client.BuiltinExchangeType;
 
 public class Producer {
@@ -19,13 +18,13 @@ public class Producer {
             System.out.println(err);
         }
 
-        BasicProperties properites = new BasicProperties().builder()
-                .expiration("10000")
-                .build();
+        // BasicProperties properites = new BasicProperties().builder()
+        // .expiration("10000")
+        // .build();
 
         for (int i = 0; i < 10; i++) {
             var message = "info " + (i + 1);
-            channel.basicPublish(NORMAL_EXCHANGE, NORMAL_ROUTING_KEY, properites, message.getBytes());
+            channel.basicPublish(NORMAL_EXCHANGE, NORMAL_ROUTING_KEY, null, message.getBytes());
             System.out.println("info " + (i + 1) + " was sent");
         }
     }

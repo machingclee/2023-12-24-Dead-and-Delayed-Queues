@@ -1,8 +1,6 @@
-package com.machingclee.rabbitmq.dead_exchange;
+package com.machingclee.rabbitmq.experiment_queues.dead_exchange_with_max_queue_length;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import com.machingclee.rabbitmq.util.RabbitMQUtil;

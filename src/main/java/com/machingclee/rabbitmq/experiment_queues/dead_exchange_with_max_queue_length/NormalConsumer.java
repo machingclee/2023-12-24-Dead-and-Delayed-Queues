@@ -1,4 +1,4 @@
-package com.machingclee.rabbitmq.dead_exchange_from_rejected;
+package com.machingclee.rabbitmq.experiment_queues.dead_exchange_with_max_queue_length;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -7,8 +7,6 @@ import java.util.concurrent.TimeoutException;
 
 import com.machingclee.rabbitmq.util.RabbitMQUtil;
 import com.rabbitmq.client.BuiltinExchangeType;
-import com.rabbitmq.client.CancelCallback;
-import com.rabbitmq.client.DeliverCallback;
 
 public class NormalConsumer {
     public static final String NORMAL_EXCHANGE = "normal_exchange";
@@ -18,6 +16,8 @@ public class NormalConsumer {
 
     public static final String NORMAL_ROUTING_KEY = "normal_route";
     public static final String DEAD_ROUTING_KEY = "dead_route";
+
+    public static final Integer MAX_QUEUE_LENGTH = 6;
 
     public static void main(String[] args) throws IOException, TimeoutException {
         var channel = RabbitMQUtil.getChannel();
@@ -35,6 +35,7 @@ public class NormalConsumer {
         Map<String, Object> arguments = new HashMap<>();
         arguments.put("x-dead-letter-exchange", DEAD_EXCHANGE);
         arguments.put("x-dead-letter-routing-key", DEAD_ROUTING_KEY);
+        arguments.put("x-max-length", MAX_QUEUE_LENGTH);
 
         // create queues
         channel.queueDeclare(NORMAL_QUEUE, false, false, false, arguments);
