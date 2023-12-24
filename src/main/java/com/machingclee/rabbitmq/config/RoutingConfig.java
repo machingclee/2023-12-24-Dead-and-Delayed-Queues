@@ -16,6 +16,8 @@ public class RoutingConfig {
     public RouterFunction<ServerResponse> studentRouter(MessageController msgController) {
         return RouterFunctions.route()
                 .GET("/ttl/msg/{message}", RequestPredicates.accept(MediaType.ALL), msgController::sendMessage)
+                .GET("/delayed/msg/{ttl}/{msg}", RequestPredicates.accept(MediaType.ALL), msgController::delayedMessage)
+                .POST("/ttl/msg", RequestPredicates.accept(MediaType.ALL), msgController::sendMessageWithTTL)
                 .build();
     }
 }

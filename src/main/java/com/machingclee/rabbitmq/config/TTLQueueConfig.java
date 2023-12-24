@@ -24,6 +24,9 @@ public class TTLQueueConfig {
     public static final String DEAD_LETTER_Q = "DEAD_LETTER_Q";
     public static final String DEAD_LETTER_Q_ROUTING_KEY = "DEAD_LETTER_Q_ROUTING_KEY";
 
+    public static final String NORMAL_Q_C = "NORMAL_Q_C";
+    public static final String NORMAL_Q_C_ROUTING_KEY = "NORMAL_Q_C_ROUTING_KEY";
+
     @Bean
     public DirectExchange xExchange() {
         return new DirectExchange(NORMAL_EXCHANGE);
@@ -55,6 +58,15 @@ public class TTLQueueConfig {
     }
 
     @Bean
+    public Queue queueC() {
+        Map<String, Object> arguments = new HashMap<>();
+        arguments.put("x-dead-letter-exchange", DEAD_LETTER_EXCANGE);
+        arguments.put("x-dead-letter-routing-key", DEAD_LETTER_Q_ROUTING_KEY);
+
+        return QueueBuilder.durable(NORMAL_Q_C).withArguments(arguments).build();
+    }
+
+    @Bean
     public Queue queueD() {
         return QueueBuilder.durable(DEAD_LETTER_Q).build();
     }
@@ -70,6 +82,13 @@ public class TTLQueueConfig {
             @Qualifier("queueB") Queue queueB,
             @Qualifier("xExchange") DirectExchange xExchange) {
         return BindingBuilder.bind(queueB).to(xExchange).with(NORMAL_Q_B_ROUTING_KEY);
+    }
+
+    @Bean
+    public Binding bindCToNormalExchange(
+            @Qualifier("queueC") Queue queueC,
+            @Qualifier("xExchange") DirectExchange xExchange) {
+        return BindingBuilder.bind(queueC).to(xExchange).with(NORMAL_Q_C_ROUTING_KEY);
     }
 
     @Bean
